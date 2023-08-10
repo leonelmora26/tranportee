@@ -1,27 +1,64 @@
+import bus from "../models/bus.js";
 
-
-const httpRuta= {
-  pushruta: async (req, res) => {
-  try {
-    const datos=
-  } catch (error) {
+const httpBus = {
+  postBus: async (req, res) => {
     
-  }
+    try {
+      const { puesto, placa, codigo} = req.body;
+      const dato = new bus({puesto, placa, codigo})
+      dato.save()
+
+      res.json({dato})
+    } catch (error) {
+      res.status(400).json({ error });
+    }
   },
-//   getArticuloCodigo: async (req, res) => {
-//     const { codigo } = req.params;
-//     const articulo = bd.articulos.find((articulo) => articulo.codigo == codigo);
-//     if (articulo == undefined)
-//       res.status(400).json({ error: "Articulo no existe" });
-//     else res.json({ articulo });
-//   },
-//   postArticulos: async (req, res) => {
-//     const { codigo, nombre, precio } = req.body;
 
-//     const articulo = { codigo, nombre, precio };
-//     bd.articulos.push(articulo);
-//     res.json({ articulo });
-//   }
-// };
+  getBusCodigo: async (req, res) => {
+    const {codigo} = req.params
+    try {
+      const Bus = await bus.find({codigo})
+      res.json({Bus})
+    } catch (error) {
+      res.status(400).json({error})
+    }
+  },
 
-// export default httpArticulos;
+  getBus: async (req, res) => {
+    try {
+      const Bus = await bus.find()
+      res.json({Bus})
+    } catch (error) {
+      res.status(400).json({error})
+    }
+  },
+
+  putBus: async (req, res) => {
+    try {
+      const {codigo} = req.params
+      const {puesto, placa} = req.body
+      const Bus = await bus.findOneAndUpdate({codigo},{puesto, placa},{new:true})
+        res.json({Bus})
+    } catch (error) {
+      res.status(400).json({error})
+    }
+  },
+
+  delBus: async (req,res) => {
+    try {
+      const {codigo} = req.params
+      const Bus = await bus.findOneAndDelete({codigo})
+      
+      if (!Bus){
+        res.status(400).json({error: "No se encontro el Bus"})
+      }
+
+      res.json({message: "Se ha eliminado el Bus"})
+    } catch (error) {
+      res.status(400).json({error: "Error"})
+    }
+  }
+
+};
+
+export default httpBus;

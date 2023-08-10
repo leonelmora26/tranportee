@@ -1,6 +1,6 @@
 import { Router, Router } from "express"
 import { check } from "express-validator"
-import bus from bus.js
+import httpticket from "../controllers/ticket.js"
 
 const router = new Router
 
@@ -12,6 +12,6 @@ router.get("/ticket", [
     check("celular", "es obligatorio el numero celular").not().isEmpty(),
     check("createdAt", "La fecha de creación es obligatoria").not().isEmpty(),
     check("estado", "El estado es obligatorio").not().isEmpty()
-], httpRuta.getRuta)
+], httpticket.getticket)
 
 export default router

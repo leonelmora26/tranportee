@@ -1,15 +1,25 @@
-import { Router, Router } from "express"
+import { Router} from "express"
 import { check } from "express-validator"
-import bus from bus.js
+import httpBus from "../controllers/bus.js"
 
-const router = new Router
+const router = new Router()
 
-router.push("/ruta", [
+router.post("/postbus", [
     check("puesto", "El puesto es obligatorio").not().isEmpty(),
     check("placa", "La placa es obligatoria").not().isEmpty(),
     check("codigo", "El codigo es obligatorio").not().isEmpty(),
-    check("createdAt", "La fecha de creación es obligatoria").not().isEmpty(),
-    check("estado", "El estado es obligatorio").not().isEmpty()
-], httpRuta)
+    /* check("createdAt", "La fecha de creación es obligatoria").not().isEmpty(),
+    check("estado", "El estado es obligatorio").not().isEmpty() */
+], httpBus.postBus)
+
+router.get("/getbuscod/:codigo",[], httpBus.getBusCodigo)
+
+router.get("/getbus",[], httpBus.getBus)
+
+router.put("/putbus/:codigo", [
+
+], httpBus.putBus)
+
+router.delete("/delbus/:codigo", httpBus.delBus)
 
 export default router
