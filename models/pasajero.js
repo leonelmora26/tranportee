@@ -10,4 +10,6 @@ const pasajero = new Schema({
 })
 
 export default mongoose.model('pasajero', pasajero)
+
+//Sapa perra
     
